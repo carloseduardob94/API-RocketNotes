@@ -5,6 +5,7 @@ const AppError = require('./utils/AppError')
 const express = require('express')
 
 const app = express()
+app.use(express.json())
 
 app.use((error, request, response, next) => {
   if (error instanceof AppError) {
@@ -20,7 +21,11 @@ app.use((error, request, response, next) => {
   })
 })
 
-app.use(express.json())
+app.post('/users', (request, response) => {
+  const { name, email, password } = request.body
+
+  response.json({ name, email, password })
+})
 
 const PORT = 3333
 
