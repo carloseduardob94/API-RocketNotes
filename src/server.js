@@ -1,11 +1,12 @@
 require('express-async-errors')
+const express = require('express')
 
 const AppError = require('./utils/AppError')
-
-const express = require('express')
+const routes = require('./routes')
 
 const app = express()
 app.use(express.json())
+app.use(routes)
 
 app.use((error, request, response, next) => {
   if (error instanceof AppError) {
@@ -21,12 +22,6 @@ app.use((error, request, response, next) => {
   })
 })
 
-app.post('/users', (request, response) => {
-  const { name, email, password } = request.body
-
-  response.json({ name, email, password })
-})
-
 const PORT = 3333
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`))
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`))
